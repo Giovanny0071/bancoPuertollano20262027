@@ -9,7 +9,8 @@ def menu():
 
         print("1) Cargar Datos Cliente")
         print("2) Consultar cuenta Deposito")
-        print("3) Salir")
+        print("3) Listar clientes cargados")
+        print("4) Salir")
 
         opt = input("Introduce la opción deseada: ")
 
@@ -26,6 +27,13 @@ def menu():
                 print(f"Saldo total: {cliente.getSaldoTotal()} €")
 
         elif opt == "3":
+
+            log.escribir(
+                "INFO",
+                "Consultar liistado de clientes"
+            )
+
+        elif opt == "4":
             log.escribir(
                 "INFO",
                 "FIN EJECUCIÓN"
