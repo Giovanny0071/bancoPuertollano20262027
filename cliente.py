@@ -31,22 +31,25 @@ def leerFichero(numCliente):
             while linea:
 
                 datos = linea.strip().split(";")
+                #TAREA 5, AL SER EL UNICO DATO QUE CAMBIA, LE AÑADIMOS UN TRY PERSONAL PARA CONTROL DE ERRORES, SI ESTE NO DA EXCEPTION, HACEMOS TODO
+                try:
+                    cantidad = float(datos[0])
+                except ValueError:
+                    log.escribir("ERROR",f"La cantidad no es valida. {linea.strip()}")
+                else:
+                    operacion = datos[1]
+                    destino = datos[2]
+                    if destino == "Cuenta" and operacion == "Ingreso":
+                        cliente.cuenta.ingresar(cantidad)
 
-                cantidad = float(datos[0])
-                operacion = datos[1]
-                destino = datos[2]
+                    elif destino == "Cuenta" and operacion == "Retirada":
+                        cliente.cuenta.retirar(cantidad)
 
-                if destino == "Cuenta" and operacion == "Ingreso":
-                    cliente.cuenta.ingresar(cantidad)
+                    elif destino == "Deposito" and operacion == "Ingreso":
+                        cliente.deposito.ingresar(cantidad)
 
-                elif destino == "Cuenta" and operacion == "Retirada":
-                    cliente.cuenta.retirar(cantidad)
-
-                elif destino == "Deposito" and operacion == "Ingreso":
-                    cliente.deposito.ingresar(cantidad)
-
-                elif destino == "Deposito" and operacion == "Retirada":
-                    cliente.deposito.retirar(cantidad)
+                    elif destino == "Deposito" and operacion == "Retirada":
+                        cliente.deposito.retirar(cantidad)
 
                 linea = f.readline()
 
