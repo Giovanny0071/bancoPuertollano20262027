@@ -1,4 +1,4 @@
-from cliente import cargarCliente
+from cliente import cargarCliente,listarClientes
 from logs import Log
 
 log = Log()
@@ -27,7 +27,7 @@ def menu():
                 print(f"Saldo total: {cliente.getSaldoTotal()} €")
 
         elif opt == "3":
-
+            listarClientes()
             log.escribir(
                 "INFO",
                 "Consultar liistado de clientes"

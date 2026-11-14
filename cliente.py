@@ -1,5 +1,6 @@
 from models import Cliente
 from logs import Log
+from pathlib import Path
 
 log = Log()
 
@@ -79,3 +80,27 @@ def cargarClienteGuardado(numCliente):
     except FileNotFoundError:
         print("Primero tienes que cargar los datos de este cliente")
         return None
+
+def listarClientes():
+    carpeta = Path("ficherosClientes")
+
+    if not carpeta.is_dir():
+        print("No hay clientes cargados")
+        return
+
+
+    clientes = sorted(
+        archivo.stem
+        for archivo in carpeta.glob("*.txt")
+        if archivo.is_file()
+    )
+
+    if not clientes:
+        print("No hay clientes cargados")
+        return
+
+
+    print("Clientes cargados:")
+    for clientito in clientes:
+        print(f"{clientito}")
+
