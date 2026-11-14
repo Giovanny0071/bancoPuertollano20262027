@@ -57,4 +57,4 @@ class Cliente:
             with open(f"datosClientes/{self.numero}.txt", "w") as f:
                 f.write(f"{self.numero}\n")
                 f.write(f"{self.cuenta.getSaldo()}\n")
-                f.write("f{self.deposito.getSaldo()}\n")
+                f.write(f"{self.deposito.getSaldo()}\n")
