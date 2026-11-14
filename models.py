@@ -54,8 +54,7 @@ class Cliente:
             os.mkdir("datosClientes")
 
         with open(f"datosClientes/{self.numero}.txt", "w") as f:
-            f.write(
-                f"{self.numero};"
-                f"{self.cuenta.getSaldo()};"
-                f"{self.deposito.getSaldo()}"
-            )
+            with open(f"datosClientes/{self.numero}.txt", "w") as f:
+                f.write(f"{self.numero}\n")
+                f.write(f"{self.cuenta.getSaldo()}\n")
+                f.write("f{self.deposito.getSaldo()}\n")
