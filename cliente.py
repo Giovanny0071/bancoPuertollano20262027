@@ -112,7 +112,7 @@ def cargarClienteGuardado(numCliente):
         return None
 
 def listarClientes():
-    carpeta = Path("ficherosClientes")
+    carpeta = Path("datosClientes")
 
     if not carpeta.is_dir():
         print("No hay clientes cargados")
