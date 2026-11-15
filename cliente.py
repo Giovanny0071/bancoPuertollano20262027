@@ -100,6 +100,7 @@ def cargarClienteGuardado(numCliente):
 
     except FileNotFoundError:
         print("Primero tienes que cargar los datos de este cliente")
+        log.escribir("ERROR", f"Se intentó cargar los datos sin acceder al cliente: {numCliente}")
         return None
 
 def listarClientes():
