@@ -19,6 +19,7 @@ def cargarCliente(tipo):
             return cargarClienteGuardado(num)
 
 
+
 def leerFichero(numCliente):
 
     log.escribir("INFO", f"Carga de cliente iniciada {numCliente}")
@@ -52,6 +53,8 @@ def leerFichero(numCliente):
 
                     elif destino == "Deposito" and operacion == "Retirada":
                         cliente.deposito.retirar(cantidad)
+                    else:
+                        log.escribir("WARNING",f"El movimiento no existe. {linea.strip()}")
 
                 linea = f.readline()
 
