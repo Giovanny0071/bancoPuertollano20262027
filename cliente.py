@@ -30,6 +30,7 @@ def leerFichero(numCliente):
         with open(f"ficherosClientes/{numCliente}.txt", "r") as f:
 
             linea = f.readline()
+            contador = 0
 
             while linea:
 
@@ -44,15 +45,19 @@ def leerFichero(numCliente):
                     destino = datos[2]
                     if destino == "Cuenta" and operacion == "Ingreso":
                         cliente.cuenta.ingresar(cantidad)
+                        contador = contador + 1
 
                     elif destino == "Cuenta" and operacion == "Retirada":
                         cliente.cuenta.retirar(cantidad)
+                        contador = contador + 1
 
                     elif destino == "Deposito" and operacion == "Ingreso":
                         cliente.deposito.ingresar(cantidad)
+                        contador = contador + 1
 
                     elif destino == "Deposito" and operacion == "Retirada":
                         cliente.deposito.retirar(cantidad)
+                        contador = contador + 1
                     else:
                         log.escribir("WARNING",f"El movimiento no existe. {linea.strip()}")
 
@@ -63,6 +68,8 @@ def leerFichero(numCliente):
 
         print("Datos del cliente cargados correctamente")
         log.escribir("INFO", f"Datos del cliente cargados correctamente {numCliente}")
+        print(f"Movimientos procesados: {contador}")
+        log.escribir("INFO",f"Movimientos procesados: {contador}")
 
         return cliente
 
