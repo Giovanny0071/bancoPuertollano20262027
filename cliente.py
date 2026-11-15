@@ -1,5 +1,6 @@
 from models import Cliente
 from logs import Log
+from pathlib import Path
 
 log = Log()
 
@@ -18,7 +19,10 @@ def cargarCliente(tipo):
             return cargarClienteGuardado(num)
 
 
+
 def leerFichero(numCliente):
+
+    log.escribir("INFO", f"Carga de cliente iniciada {numCliente}")
 
     cliente = Cliente(numCliente)
 
@@ -26,26 +30,36 @@ def leerFichero(numCliente):
         with open(f"ficherosClientes/{numCliente}.txt", "r") as f:
 
             linea = f.readline()
+            contador = 0
 
             while linea:
 
                 datos = linea.strip().split(";")
+                #TAREA 5, AL SER EL UNICO DATO QUE CAMBIA, LE AÑADIMOS UN TRY PERSONAL PARA CONTROL DE ERRORES, SI ESTE NO DA EXCEPTION, HACEMOS TODO
+                try:
+                    cantidad = float(datos[0])
+                except ValueError:
+                    log.escribir("ERROR",f"La cantidad no es valida. {linea.strip()}")
+                else:
+                    operacion = datos[1]
+                    destino = datos[2]
+                    if destino == "Cuenta" and operacion == "Ingreso":
+                        cliente.cuenta.ingresar(cantidad)
+                        contador = contador + 1
 
-                cantidad = float(datos[0])
-                operacion = datos[1]
-                destino = datos[2]
+                    elif destino == "Cuenta" and operacion == "Retirada":
+                        cliente.cuenta.retirar(cantidad)
+                        contador = contador + 1
 
-                if destino == "Cuenta" and operacion == "Ingreso":
-                    cliente.cuenta.ingresar(cantidad)
+                    elif destino == "Deposito" and operacion == "Ingreso":
+                        cliente.deposito.ingresar(cantidad)
+                        contador = contador + 1
 
-                elif destino == "Cuenta" and operacion == "Retirada":
-                    cliente.cuenta.retirar(cantidad)
-
-                elif destino == "Deposito" and operacion == "Ingreso":
-                    cliente.deposito.ingresar(cantidad)
-
-                elif destino == "Deposito" and operacion == "Retirada":
-                    cliente.deposito.retirar(cantidad)
+                    elif destino == "Deposito" and operacion == "Retirada":
+                        cliente.deposito.retirar(cantidad)
+                        contador = contador + 1
+                    else:
+                        log.escribir("WARNING",f"El movimiento no existe. {linea.strip()}")
 
                 linea = f.readline()
 
@@ -53,11 +67,23 @@ def leerFichero(numCliente):
         cliente.guardar()
 
         print("Datos del cliente cargados correctamente")
+        log.escribir("INFO", f"Datos del cliente cargados correctamente {numCliente}")
+
+        #FEATURE 3
+
+        print("======  ======")
+        print(f"Cliente: {cliente.numero}")
+        print(f"Saldo cuenta: {cliente.cuenta.saldo}")
+        print(f"Saldo depósito: {cliente.deposito.saldo}")
+
+        print(f"Movimientos procesados: {contador}")
+        log.escribir("INFO",f"Movimientos procesados: {contador}")
 
         return cliente
 
     except FileNotFoundError:
         print("El usuario no tiene ninguna cuenta con el banco")
+        log.escribir("ERROR", f"El fichero del cliente {numCliente} no existe")
         return None
 
 
@@ -66,16 +92,45 @@ def cargarClienteGuardado(numCliente):
     try:
         with open(f"datosClientes/{numCliente}.txt", "r") as f:
 
-            linea = f.readline()
-            datos = linea.split(";")
+            numero = f.readline().strip()
 
-            cliente = Cliente(datos[0])
+            saldo_cuenta = float(f.readline().strip())
 
-            cliente.cuenta.saldo = float(datos[1])
-            cliente.deposito.saldo = float(datos[2])
+            saldo_deposito = float(f.readline().strip())
+
+            cliente = Cliente(numero)
+
+            cliente.cuenta.saldo = saldo_cuenta
+
+            cliente.deposito.saldo = saldo_deposito
 
             return cliente
 
     except FileNotFoundError:
         print("Primero tienes que cargar los datos de este cliente")
+        log.escribir("ERROR", f"Se intentó cargar los datos sin acceder al cliente: {numCliente}")
         return None
+
+def listarClientes():
+    carpeta = Path("datosClientes")
+
+    if not carpeta.is_dir():
+        print("No hay clientes cargados")
+        return
+
+
+    clientes = sorted(
+        archivo.stem
+        for archivo in carpeta.glob("*.txt")
+        if archivo.is_file()
+    )
+
+    if not clientes:
+        print("No hay clientes cargados")
+        return
+
+
+    print("Clientes cargados:")
+    for clientito in clientes:
+        print(f"{clientito}")
+

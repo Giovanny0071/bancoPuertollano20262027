@@ -1,4 +1,4 @@
-from cliente import cargarCliente
+from cliente import cargarCliente,listarClientes
 from logs import Log
 
 log = Log()
@@ -9,7 +9,8 @@ def menu():
 
         print("1) Cargar Datos Cliente")
         print("2) Consultar cuenta Deposito")
-        print("3) Salir")
+        print("3) Listar clientes cargados")
+        print("4) Salir")
 
         opt = input("Introduce la opción deseada: ")
 
@@ -18,13 +19,21 @@ def menu():
 
         elif opt == "2":
             cliente = cargarCliente("guardado")
-            log.escribir("INFO", f"CONSULTA DATOS CLIENTE CON NÚMERO: {cliente.numero}")
             if cliente is not None:
+                log.escribir("INFO", f"CONSULTA DATOS CLIENTE CON NÚMERO: {cliente.numero}")
                 print(f"Cliente: {cliente.numero}")
                 print(f"Saldo cuenta: {cliente.cuenta.saldo} €")
                 print(f"Saldo depósito: {cliente.deposito.saldo} €")
+                print(f"Saldo total: {cliente.getSaldoTotal()} €")
 
         elif opt == "3":
+            listarClientes()
+            log.escribir(
+                "INFO",
+                "Consultar liistado de clientes"
+            )
+
+        elif opt == "4":
             log.escribir(
                 "INFO",
                 "FIN EJECUCIÓN"
