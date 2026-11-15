@@ -21,6 +21,8 @@ def cargarCliente(tipo):
 
 def leerFichero(numCliente):
 
+    log.escribir("INFO", f"Carga de cliente iniciada {numCliente}")
+
     cliente = Cliente(numCliente)
 
     try:
@@ -57,11 +59,13 @@ def leerFichero(numCliente):
         cliente.guardar()
 
         print("Datos del cliente cargados correctamente")
+        log.escribir("INFO", f"Datos del cliente cargados correctamente {numCliente}")
 
         return cliente
 
     except FileNotFoundError:
         print("El usuario no tiene ninguna cuenta con el banco")
+        log.escribir("ERROR", f"El fichero del cliente {numCliente} no existe")
         return None
 
 
