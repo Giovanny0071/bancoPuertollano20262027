@@ -62,6 +62,7 @@ def leerFichero(numCliente):
 
     except FileNotFoundError:
         print("El usuario no tiene ninguna cuenta con el banco")
+        log.escribir("ERROR", f"Se intento acceder a un usuario q no tiene cuenta en el banco: {numCliente}")
         return None
 
 
@@ -86,6 +87,7 @@ def cargarClienteGuardado(numCliente):
 
     except FileNotFoundError:
         print("Primero tienes que cargar los datos de este cliente")
+        log.escribir("ERROR", f"Se intentó cargar los datos sin acceder al cliente: {numCliente}")
         return None
 
 def listarClientes():
