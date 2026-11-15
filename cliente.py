@@ -68,6 +68,14 @@ def leerFichero(numCliente):
 
         print("Datos del cliente cargados correctamente")
         log.escribir("INFO", f"Datos del cliente cargados correctamente {numCliente}")
+
+        #FEATURE 3
+
+        print("======  ======")
+        print(f"Cliente: {cliente.numero}")
+        print(f"Saldo cuenta: {cliente.cuenta.saldo}")
+        print(f"Saldo depósito: {cliente.deposito.saldo}")
+
         print(f"Movimientos procesados: {contador}")
         log.escribir("INFO",f"Movimientos procesados: {contador}")
 
